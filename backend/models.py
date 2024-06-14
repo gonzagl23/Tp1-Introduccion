@@ -3,26 +3,26 @@ import datetime
 
 db = SQLAlchemy()
 
-class player(db.model):
+class player(db.Model):
     __tablename__ = 'players'
-    id = db.column(db.Integer, primary_key=True)
-    name = db.column(db.String(31), nullable=False, unique=True)
-    money = db.column(db.Integer, nullable=False)
-    created_at = db.column(db.DateTime, default=datetime.datetime.now())
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False, unique=True)
+    money = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now())
 
-class property_type(db.model):
+class property_type(db.Model):
     __tablename__ = 'properties_types'
-    id = db.column(db.Integer, primary_key=True)
-    category = db.column(db.String(31), unique=True, nullable=False)
-    time_to_build = db.column(db.DateTime, nullable=False)
-    profits = db.column(db.Integer, nullable=False)
-    created_at = db.column(db.DateTime, default=datetime.datetime.now())
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(255), unique=True, nullable=False)
+    time_to_build = db.Column(db.DateTime, nullable=False)
+    profits = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now())
 
-class property(db.model):
+class property(db.Model):
     __tablename__ = 'properties'
-    id = db.column(db.Integer, primary_key=True)
-    id_player = db.column(db.Integer, db.ForeignKey('player.id'))
-    id_property = db.column(db.Integer, db.ForeignKey('property.id'))
-    cost_property = db.column(db.Integer, nullable=False)
-    crated_at = db.column(db.DateTime, default=datetime.datetime.now())
+    id = db.Column(db.Integer, primary_key=True)
+    id_player = db.Column(db.Integer, db.ForeignKey('player.id'))
+    id_property = db.Column(db.Integer, db.ForeignKey('property.id'))
+    cost_property = db.Column(db.Integer, nullable=False)
+    crated_at = db.Column(db.DateTime, default=datetime.datetime.now())
 

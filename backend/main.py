@@ -3,7 +3,7 @@ from models import db, player, property_type, property
 
 app = Flask(__name__)
 port = 5000
-app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:uriel@localhost5432/clicker'
+app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:uriel@localhost:5432/clicker'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 @app.route('/')

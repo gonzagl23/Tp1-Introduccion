@@ -4,6 +4,7 @@ const labelRegister = document.querySelectorAll(".register")
 const btnRegistro = document.getElementById("btn-registro")
 const index = document.querySelectorAll(".index")
 const btnBack = document.querySelector(".btn-back")
+const divRegister = document.querySelector(".form-input-label-register")
 
 register.addEventListener('click',crear_tabla_registro)
 btnBack.addEventListener('click',retroceder_pagina)
@@ -17,6 +18,7 @@ function crear_tabla_registro(){
     } 
    btnRegistro.classList.add("on")
    btnBack.classList.add("on")
+   divRegister.classList.add("on")
 }
 
 function retroceder_pagina(){
@@ -28,6 +30,7 @@ function retroceder_pagina(){
     } 
    btnRegistro.classList.remove("on")
    btnBack.classList.remove("on")
+   divRegister.classList.remove("on")
 }
 
 

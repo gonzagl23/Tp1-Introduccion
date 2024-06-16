@@ -12,16 +12,22 @@
             <h1>CONSTRUCCTION CLICKER</h1>
         </div>
         <div class="form">
-            <label for="name">Usuario:</label>
-            <input type="text">
-            <label for="password">Clave:</label>
-             <input type="password" name="">
-            <label for="password" class="register">Repetir clave:</label>
-            <input type="password" class="register">
+            <div class="form-input-label">
+            <label for="name" >Usuario:</label>
+            <input type="text" id="user" name="name">
+            </div>
+            <div class="form-input-label">
+                <label for="password">Clave:</label>
+                <input type="password" name="" id="password">
+            </div>
+            <div class="form-input-label-register">
+                <label for="password" class="register" >Repetir clave:</label>
+                <input type="password" class="register" id="repeat-password">
+            </div>
             <a href="" class="index">Olvidaste tu contrasenia?</a>
         </div>
         <div class="btn">
-            <button class="index">INGRESAR</button>
+            <button class="index" id="send-form">INGRESAR</button>
             <button id="signup" class="index">SOY NUEVO</button>
             <button class="btn-back">ATRAS</button>
             <button id="btn-registro" class="btn-register">REGISTRARSE</button>
@@ -30,5 +36,6 @@
     </div>
    
     <script src="./JS/script.js"></script>
+    <script src="./JS/user.js"></script>
 </body>
 </html>

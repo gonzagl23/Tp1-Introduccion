@@ -3,49 +3,68 @@
 const user = document.getElementById("user")
 const password = document.getElementById("password")
 const repeat_password = document.getElementById("repeat-password")
-const btnForm = document.getElementById("send-form")
-const btnFormSingup = document.getElementById("btn-registro")
-
-btnForm.addEventListener('click',send_form_sigin)
-btnFormSingup.addEventListener('click',send_form_singup)
+const btnFormSigin = document.getElementById("send-form")
+const btnFormSigup = document.getElementById("btn-registro")
 
 
-function send_form_singup(){
+const _SPACE_NUL = "",
+    _ALERT_MENSSAGE = "Please enter your "
+btnFormSigin.addEventListener('click',send_form_sigin)
+btnFormSigup.addEventListener('click',send_form_sigup)
+
+
+function send_form_sigup(){
     const data = {
         name: user.value,
         pass: password.value,
         repeat_pass: repeat_password.value,
     }
-    console.log(data)
+    fetch('http://localhost:5000/sigup',{
+        method : "POST",
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify(data)
+    })
+    .then(response_receive)
+    .then(parse_data)
+    .catch(request_error)
 }
 
 
 function send_form_sigin(){
-    const data = {
-        name: user.value,
-        pass: password.value,
+    if (user.value === _SPACE_NUL){
+        alert(_ALERT_MENSSAGE + "username")
+        return
     }
-    console.log(data)
-    // fetch({
-    //     method: 'POST',
-    //     headers:{
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(data)
-    // })
-    // .then(response_reciver)
-    // .then(parse_data)
-    // .catch(request_error)
+    if (password.value === _SPACE_NUL){
+        alert(_ALERT_MENSSAGE + "password")
+        return
+    }
+    data = {
+        name : user.value,
+        pass : password.value,
+    }
+    
+    fetch("http://localhost:5000/signin",{
+        method : "POST",
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify(data)
+    })
+    .then(response_receive)
+    .then(parse_data)
+    .catch(request_error)
 
 }
 
 function response_receive(data){
-    console.log(data)
-    // return data.json()
+    return data.json()
 }
 
 function parse_data(content){
-    console.log(content)
+   console.log("Respuesta del servidor:",content)
 }
 
 function request_error(error){

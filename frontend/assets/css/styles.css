@@ -15,28 +15,73 @@ body{
     background-size: cover;
     background-position: center;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-.inicio{
-    /* border: 2px solid red; */
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    width: 70%;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
-.inicio a{
-    text-align: center;
-    /* border: none; */
-    /* text-decoration: none; */
-    color: black;
 
+.table-ranking,.table-form{
+    /* border: 2px solid black; */
+    width: 40%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: hsla(0, 0%, 50%, 0.5);
+    /* background-color: beige; */
+    margin: 30px;
+    border-radius: 20px;
 }
+
+.title-ranking{
+    border: 2px solid black;
+    width: 50%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 10px;
+    background-color: green;
+    height: 50px;
+}
+
+.title-ranking h3{
+    font-size: 30px;
+    color: white;
+}
+
+.title-ranking img,.img-copa{
+    height: 30px;
+}
+
+.user-data{
+    border: 2px solid grey;
+    margin-top: 20px;
+    width: 70%;
+    display: flex;
+    background-color: white;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.user-data p{
+    font-size: 20px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.img-money-bag{
+    margin-left: 10px;
+    height: 30px;
+}
+
+
+
+/* TABLE LOGIN */
+
 
 .title h1{
     font-size: 30px;
@@ -47,6 +92,9 @@ body{
     border: 2px solid black;
     border-radius: 20px;
     background-color: beige;
+    margin-top: 40px;
+    text-align: center;
+    width: 50%;
 }
 
 .form{
@@ -54,10 +102,11 @@ body{
     flex-direction: column;
     border: 2px solid black;
     padding: 20px;
-    margin-top: 30px;
+    margin-top: 100px;
     border-radius: 20px;
     background-color: beige;
-
+    width: 45%;
+    justify-content: space-around;
 }
 
 .form-input-label,.form-input-label-register{
@@ -70,20 +119,31 @@ body{
 }
 
 
-.title{
-    width: 50%;
-    text-align: center;
-    /* border: 2px solid red; */
+.form-input-label input,.form-input-label-register.on input{
+    width: 100%;
+    height: 30px;
+    font-size: 20px;
 }
 
+.form-input-label label,.form-input-label-register.on label,.table-form a{
+    font-size: 20px;
+}
+
+
+.table-form a{
+    text-align: center;
+    color: black;
+
+}
+
+
 .btn{
-    /* border: 2px solid red; */
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 50px;
-    margin-top: 50px;
+    margin-top: 100px;
     width: 40%;
 }
 
@@ -101,6 +161,7 @@ body{
 
 .btn button:hover{
     background-color: grey;
+    color: white;
 }
 
 .index.on,.btn-register,.btn-back,.register,.link-a.on,.form-input-label-register{
@@ -113,4 +174,8 @@ body{
 
 
 
+/* MEDIA QUERYS */
 
+@media (min-width: 768px) and (max-width:1023px){
+    
+}

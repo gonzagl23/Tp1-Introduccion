@@ -1,14 +1,16 @@
 // Get user login
 
-const user = document.getElementById("user")
-const password = document.getElementById("password")
-const repeat_password = document.getElementById("repeat-password")
-const btnFormSigin = document.getElementById("send-form")
-const btnFormSigup = document.getElementById("btn-registro")
-
-
-const _SPACE_NUL = "",
+const 
+    user = document.getElementById("user"),
+    password = document.getElementById("password"),
+    repeat_password = document.getElementById("repeat-password"),
+    btnFormSigin = document.getElementById("send-form"),
+    btnFormSigup = document.getElementById("btn-registro"),
+    _SPACE_NUL = "",
     _ALERT_MENSSAGE = "Please enter your "
+
+
+    
 btnFormSigin.addEventListener('click',send_form_sigin)
 btnFormSigup.addEventListener('click',send_form_sigup)
 

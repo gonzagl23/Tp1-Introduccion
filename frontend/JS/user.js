@@ -4,22 +4,76 @@ const
     user = document.getElementById("user"),
     password = document.getElementById("password"),
     repeat_password = document.getElementById("repeat-password"),
-    btnFormSigin = document.getElementById("send-form"),
+    btnFormSigin = document.getElementById("btn-login"),
     btnFormSigup = document.getElementById("btn-registro"),
     _SPACE_NUL = "",
-    _ALERT_MENSSAGE = "Please enter your "
+    _ALERT_MENSSAGE = "Please enter your ",
+    _TABLE_RANKING = document.getElementById('table')
 
 
     
-btnFormSigin.addEventListener('click',send_form_sigin)
-btnFormSigup.addEventListener('click',send_form_sigup)
 
 
-function send_form_sigup(){
+// TABLE RANKING
+fetch("http://localhost:5000")
+.then(response_receive)
+.then(tableRanking)
+.catch(request_error)
+
+function tableRanking(content){
+    if (content.length == 0){
+        return
+    }
+    for (i = 0; i < content.length && i < 15; i ++){
+        let divRank = document.createElement("div")
+        divRank.classList.add("user-data")
+        let imgCopa = document.createElement("img")
+        if (i === 0){
+            imgCopa.src = "./assets/img/copa-de-oro.png"
+        }else if (i === 1){
+            imgCopa.src = './assets/img/copa-de-plata.png'
+        }else{
+            imgCopa.src = './assets/img/mate.png'
+        }
+        imgCopa.classList.add("img-copa")
+        let user = document.createElement("p")
+        user.textContent = content[i].name
+        let imgMoney = document.createElement("img")
+        imgMoney.classList.add("img-money-bag")
+        imgMoney.src = './assets/img/bolsa-de-dinero.png'
+        let moneyUser = document.createElement("p")
+        moneyUser.textContent = content[i].money
+        divRank.appendChild(imgCopa)
+        divRank.appendChild(user)
+        divRank.appendChild(imgMoney)
+        divRank.appendChild(moneyUser)
+        _TABLE_RANKING.appendChild(divRank)
+        // console.log(content[i].name)
+    }
+    
+}
+
+
+btnFormSigin.addEventListener('click',sendSignin)
+btnFormSigup.addEventListener('click',sendRegister)
+
+
+// REGISTER
+function sendRegister(){
+    verifyInput()
+    if (repeat_password.value === _SPACE_NUL){
+        alert("complete input repeat paswword please")
+        return
+    }
+    if (password.value != repeat_password.value){
+        alert('password not coincide')
+        return
+    }
     const data = {
         name: user.value,
         pass: password.value,
-        repeat_pass: repeat_password.value,
+        money: 0,
+        date: Date(),
     }
     fetch('http://localhost:5000/sigup',{
         method : "POST",
@@ -29,25 +83,30 @@ function send_form_sigup(){
         body:JSON.stringify(data)
     })
     .then(response_receive)
-    .then(parse_data)
+    .then(parseDataRegister)
     .catch(request_error)
+}
+function parseDataRegister(content){
+    console.log(typeof(content))
+    console.log(content)
+    // console.log(content[0].message)
+    // if (content[0].message == "ERROR"){
+    //     alert("ERROR") 
+    //     return
+    // }
+    // alert(`WELCOME!!!!  ${content[0].message[0]}`)
+    // location.reload()
 }
 
 
-function send_form_sigin(){
-    if (user.value === _SPACE_NUL){
-        alert(_ALERT_MENSSAGE + "username")
-        return
-    }
-    if (password.value === _SPACE_NUL){
-        alert(_ALERT_MENSSAGE + "password")
-        return
-    }
+
+// LOGIN
+function sendSignin(){
+    verifyInput()
     data = {
         name : user.value,
-        pass : password.value,
+        password : password.value,
     }
-    
     fetch("http://localhost:5000/signin",{
         method : "POST",
         headers:{
@@ -56,7 +115,7 @@ function send_form_sigin(){
         body:JSON.stringify(data)
     })
     .then(response_receive)
-    .then(parse_data)
+    .then(parseDataLogIn)
     .catch(request_error)
 
 }
@@ -65,11 +124,33 @@ function response_receive(data){
     return data.json()
 }
 
-function parse_data(content){
-   console.log("Respuesta del servidor:",content)
+function parseDataLogIn(content){
+//    console.log("Respuesta del servidor:",(content.message === "ERROR"))
+   if (content.message === "ERROR"){
+        alert("Invalid username or password")
+        return
+   }
+//    rederict game
+   window.location.href = `./pages/game.html?id=${content.message.id}`
+
 }
 
 function request_error(error){
     console.log("ERROR")
     console.log(error)
 }
+
+
+function verifyInput(){
+    if (user.value === _SPACE_NUL){
+        alert(_ALERT_MENSSAGE + "username")
+        return
+    }
+    if (password.value === _SPACE_NUL){
+        alert(_ALERT_MENSSAGE + "password")
+        return
+    }
+}
+
+
+

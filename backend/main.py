@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db
-from database.user import get_all_user,get_user_by_name,created_user,get_data_user_by_id, update_money, add_property
+from database.user import get_all_user,get_user_by_name,created_user,get_data_user_by_id, update_money, add_property,update_user
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -14,6 +14,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 @app.route('/get_user/<name>')
 def get_data_user(name):
     return jsonify(get_user_by_name(name))
+
+@app.route("/update_data", methods=['PUT'])
+def update_data():
+    data = request.get_json()
+    print(data)
+    return jsonify(update_user(data['id'],data['money']))
 
 
 @app.route('/get_data/<id>')

@@ -216,11 +216,15 @@ body{
 }
 /* MEDIA QUERYS */
 
-@media (min-width:1023px) and (max-width:1400px) {
+@media (min-width: 768px) and (max-width:1400px){
 
     /* table clicker */
     .btn-sign-out button{
         font-size: 15px;
+    }
+
+    .title-user,.title-counter{
+        margin-top: 30px;
     }
     .title-user h3 ,.username,.title-counter h3,.counter{
         font-size: 23px;
@@ -232,11 +236,14 @@ body{
         height: 250px;
     }
 
+    .img-clicker{
+        margin-top: 20px;
+    }
+
     /* table objects */
 
 
     .tab-objects{
-        border: 2px solid red;
         justify-content: normal;
     }
 
@@ -263,28 +270,30 @@ body{
         justify-content: normal;
     }
     .title-shop{
-        height: 50px;
+        /* height: 80px; */
         margin: 5px;
+    }
+
+    .shop{
+        height: 300px;
     }
 
     .title-shop h3{
         font-size: 20px;
     }
-    .shop{
-        height: 200px;
-    }
     .description-table{
         height: 100px;
     }
     .description{
-        font-size: 14px;
+        padding: 0px;
+        font-size: 12px;
     }
     .price-object img{
         height: 25px;
         width: 25px;
     }
     .price-object p {
-        font-size: 17px;
+        font-size: 15px;
     }
 
 }

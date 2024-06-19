@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db
-from database.user import get_all_user,get_user_by_name,created_user,get_data_user_by_id
+from database.user import get_all_user,get_user_by_name,created_user,get_data_user_by_id, update_money, add_property
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -44,7 +44,23 @@ def send_user():
         data = request.get_json()
         return jsonify(created_user(data['name'],data['pass']),201)
     except:
-        return jsonify(None,500) 
+        return jsonify(None,500)
+
+# app.route('/update_money/<int:player_id>', methods=['PUT'])
+# def update_money_route(player_id):
+#     data = request.get_json()
+#     new_money = data.get('money')
+#     if update_money(player_id, new_money):
+#         return jsonify({"message": "Money updated successfully"})
+#     return jsonify({"message": "Player not found"}), 404
+
+# @app.route('/add_property/<int:player_id>', methods=['POST'])
+# def add_property_route(player_id):
+#     data = request.get_json()
+#     if add_property(player_id, data):
+#         return jsonify({"message": "Property added successfully"})
+#     return jsonify({"message": "Failed to add property"}), 500
+ 
 
 if __name__ == '__main__':
     db.init_app(app)

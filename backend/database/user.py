@@ -54,7 +54,27 @@ def created_user(name,password):
         'created_at':new_user.created_at
     }
     return user_data
-    
+
+#-----actualizar el dinero de un jugador------
+# def update_money(player_id, new_money):
+#     player = player.query.get(player_id)
+#     if player:
+#         player.money = new_money
+#         db.session.commit()
+#         return True  
+#     return False
+
+#------añadir una propiedad a un jugador-----
+# def add_property(player_id, property_data):
+#     new_property = property(
+#         id_player=player_id,
+#         id_property_type=property_data['id_property_type'],
+#         cost_property=property_data['cost_property']
+#     )
+#     db.session.add(new_property)
+#     db.session.commit()
+#     return True  
+
 
 
 

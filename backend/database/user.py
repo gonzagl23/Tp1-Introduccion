@@ -56,6 +56,19 @@ def created_user(name,password):
     return user_data
     
 
+def update_user(id,money):
+    user = get_data_user_by_id(id)
+    if user['message'] == "ERROR":
+        return user
+    print(user['message']['money'])
+    user['message']['money'] +=  money
+    db.session.commit()
+    print(user['message']['money'])
+    return {"message":"SUCCESS","usuario":user['message']}
+
+
+
+    
 
 
 

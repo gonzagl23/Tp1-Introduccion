@@ -87,15 +87,12 @@ function sendRegister(){
     .catch(request_error)
 }
 function parseDataRegister(content){
-    console.log(typeof(content))
-    console.log(content)
-    // console.log(content[0].message)
-    // if (content[0].message == "ERROR"){
-    //     alert("ERROR") 
-    //     return
-    // }
-    // alert(`WELCOME!!!!  ${content[0].message[0]}`)
-    // location.reload()
+    if (content.message == null){
+        alert("ERROR") 
+        return
+    }
+    alert(`WELCOME!!!!  ${content.message.name}`)
+    location.reload()
 }
 
 

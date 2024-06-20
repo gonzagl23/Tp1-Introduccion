@@ -15,7 +15,7 @@ class property_type(db.Model):
     __tablename__ = 'properties_types'
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(255), unique=True, nullable=False)
-    time_to_build = db.Column(db.DateTime, nullable=False)
+    time_to_build = db.Column(db.Interger, nullable=False)
     profits = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now())
 

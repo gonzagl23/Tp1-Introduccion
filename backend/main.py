@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db
-from database.user import get_all_user,get_user_by_name,created_user,get_data_user_by_id, update_money, add_property,update_user
+from database.user import get_all_user,get_user_by_name,created_user,get_data_user_by_id,update_money, add_property,update_user
 from flask_cors import CORS
 
 app = Flask(__name__)

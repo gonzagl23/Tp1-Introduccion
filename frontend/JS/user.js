@@ -16,7 +16,7 @@ const
 
 // TABLE RANKING
 fetch("http://localhost:5000")
-.then(response_receive)
+.then(response => response.json())
 .then(tableRanking)
 .catch(request_error)
 
@@ -48,7 +48,6 @@ function tableRanking(content){
         divRank.appendChild(imgMoney)
         divRank.appendChild(moneyUser)
         _TABLE_RANKING.appendChild(divRank)
-        // console.log(content[i].name)
     }
     
 }
@@ -60,7 +59,9 @@ btnFormSigup.addEventListener('click',sendRegister)
 
 // REGISTER
 function sendRegister(){
-    verifyInput()
+    if (verifyInput() === false){
+        return;
+    }
     if (repeat_password.value === _SPACE_NUL){
         alert("complete input repeat paswword please")
         return
@@ -71,9 +72,8 @@ function sendRegister(){
     }
     const data = {
         name: user.value,
-        pass: password.value,
+        password: password.value,
         money: 0,
-        date: Date(),
     }
     fetch('http://localhost:5000/sigup',{
         method : "POST",
@@ -82,16 +82,18 @@ function sendRegister(){
         },
         body:JSON.stringify(data)
     })
-    .then(response_receive)
+    .then(response => response.json())
     .then(parseDataRegister)
     .catch(request_error)
 }
 function parseDataRegister(content){
-    if (content.message == null){
+    console.log(content)
+    if (content.message === "ERROR"){
         alert("ERROR") 
         return
+    }else{
+        alert(`WELCOME!!!!  ${user.value}`)
     }
-    alert(`WELCOME!!!!  ${content.message.name}`)
     location.reload()
 }
 
@@ -99,7 +101,9 @@ function parseDataRegister(content){
 
 // LOGIN
 function sendSignin(){
-    verifyInput()
+    if (verifyInput() === false){
+        return;
+    }
     data = {
         name : user.value,
         password : password.value,
@@ -111,24 +115,21 @@ function sendSignin(){
         },
         body:JSON.stringify(data)
     })
-    .then(response_receive)
+    .then(response => response.json())
     .then(parseDataLogIn)
     .catch(request_error)
 
 }
 
-function response_receive(data){
-    return data.json()
-}
-
 function parseDataLogIn(content){
 //    console.log("Respuesta del servidor:",(content.message === "ERROR"))
+    // console.log(content.message)
    if (content.message === "ERROR"){
         alert("Invalid username or password")
         return
    }
 //    rederict game
-   window.location.href = `./pages/game.html?id=${content.message.id}`
+   window.location.href = `./pages/game.html?id=${content.message}`//&worker=${content.worker}&house=${content.house}&departament=${content.departament}&mansion=${content.mansion}`
 
 }
 
@@ -141,12 +142,13 @@ function request_error(error){
 function verifyInput(){
     if (user.value === _SPACE_NUL){
         alert(_ALERT_MENSSAGE + "username")
-        return
+        return false
     }
     if (password.value === _SPACE_NUL){
         alert(_ALERT_MENSSAGE + "password")
-        return
+        return false
     }
+    return true
 }
 
 

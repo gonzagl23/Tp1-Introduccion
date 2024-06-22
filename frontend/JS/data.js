@@ -24,14 +24,13 @@ function sendDataUser(){
     console.log(money.textContent)
     if (confirm("You're sure?")){
         console.log(money.textContent)
-        fetch(`http://localhost:5000/update_data`,{
+        fetch(`http://localhost:5000/update_money`,{
             method: 'PUT',
             headers:{
                 'Content-Type':'application/json'
             },
             body:JSON.stringify({
-                id : dataUsername.id,
-                name: dataUsername.name,
+                id: _ID,
                 money: parseInt(money.textContent),
             })
         })
@@ -42,22 +41,19 @@ function sendDataUser(){
 }
 
 function updateData(content){
-    if (content.message !== "SUCCES"){
-        window.location.href = '../index.html'
-    }else{
-        alert("ERROR")
-    }
+    console.log(content)
+    window.location.href = '../index.html'
 }
 
 
 function dataUser(content){
-    user.textContent = content.message.name
-    money.textContent = content.message.money
-    
+    console.log(content)
+    user.textContent = content.name
+    money.textContent = content.money
     dataUsername = {
-        id : content.message.id,
-        name: content.message.name,
-        money: content.message.money
+        // id : content..id,
+        name: content.name,
+        money: content.money
     }
 }
 

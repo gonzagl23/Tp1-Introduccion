@@ -15,7 +15,8 @@ class property_type(db.Model):
     __tablename__ = 'properties_types'
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(255), unique=True, nullable=False)
-    time_to_build = db.Column(db.DateTime, nullable=False)
+    cost_property = db.Column(db.Integer, nullable=False)
+    time_to_build = db.Column(db.Integer, nullable=False)
     profits = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now())
 
@@ -24,5 +25,6 @@ class property(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_player = db.Column(db.Integer, db.ForeignKey('players.id'))
     id_property_type = db.Column(db.Integer, db.ForeignKey('properties_types.id'))
-    cost_property = db.Column(db.Integer, nullable=False)
+    state = db.Column(db.Boolean,default=False)
+    time_completed_work = db.Column(db.DateTime,nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now())

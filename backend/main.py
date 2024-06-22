@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db
-from database.user import get_all_user,get_user_by_name,created_user,get_data_user_by_id, update_money, add_property,update_user
+from database.user import get_all_user,get_user_by_name,created_user,get_data_user_by_id, update_money
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -10,55 +10,54 @@ app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:uriel@loc
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 
-
+ # DATA GAME
 @app.route('/get_user/<name>')
 def get_data_user(name):
     return jsonify(get_user_by_name(name))
 
-@app.route("/update_data", methods=['PUT'])
-def update_data():
-    data = request.get_json()
-    print(data)
-    return jsonify(update_user(data['id'],data['money']))
-
-
 @app.route('/get_data/<id>')
 def data_by_id(id):
-    return jsonify(get_data_user_by_id(id))
+    print(get_data_user_by_id(id))
+    data = get_data_user_by_id(id)
+    return jsonify({'name':data['name'],'money':data['money']})
 
+
+# VALIDATION USER
 @app.route('/signin',methods=['POST'])
 def get_user_validation():
     data = request.get_json()
     user = get_user_by_name(data['name'])
-    if user == None:
-        return jsonify({"message":"ERROR"})
-    if user['password'] == data['password']:
-        return jsonify({"message":user})
+    if user and user['password'] == data['password']:
+        return jsonify({"message":user['id']})#,'user':user['user'],'worker':user['worker'],"house":user['house'],'departament':user['departament'],"mansion":user['mansion']})    
     return jsonify({"message":"ERROR"})
 
+
+# GET ALL USERS
 @app.route('/')
 def index():
-    try:
-        return jsonify(get_all_user())
-    except:
-        return jsonify(None)
-    
+   return jsonify(get_all_user())
 
+    
+# DATA FROM DATABASE
 @app.route('/sigup',methods=['POST'])
 def send_user():
     try:
         data = request.get_json()
-        return jsonify(created_user(data['name'],data['pass']),201)
+        created_user(data['name'],data['password'])
+        return jsonify({"message":"SUCCES"})
     except:
-        return jsonify(None,500)
+        return jsonify({"message":"ERROR"})
 
-# app.route('/update_money/<int:player_id>', methods=['PUT'])
-# def update_money_route(player_id):
-#     data = request.get_json()
-#     new_money = data.get('money')
-#     if update_money(player_id, new_money):
-#         return jsonify({"message": "Money updated successfully"})
-#     return jsonify({"message": "Player not found"}), 404
+
+# UPDATE 
+@app.route('/update_money', methods=['PUT'])
+def update_money_route():
+    data = request.get_json()
+    id = data.get('id')
+    money = data.get('money')
+    if update_money(id, money):
+        return jsonify({"message": "Money updated successfully"})
+    return jsonify({"message": "Player not found"})
 
 # @app.route('/add_property/<int:player_id>', methods=['POST'])
 # def add_property_route(player_id):

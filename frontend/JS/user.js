@@ -15,15 +15,15 @@ const
 
 
 // TABLE RANKING
-fetch("http://localhost:5000")
+fetch("http://localhost:5000/table_ranking")
 .then(response => response.json())
 .then(tableRanking)
 .catch(request_error)
 
 function tableRanking(content){
-    if (content.length == 0){
-        return
-    }
+    // if (content.length == 0){
+    //     return
+    // }
     for (i = 0; i < content.length && i < 15; i ++){
         let divRank = document.createElement("div")
         divRank.classList.add("user-data")

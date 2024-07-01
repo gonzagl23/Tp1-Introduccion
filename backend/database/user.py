@@ -1,4 +1,6 @@
 from models import player,property,property_type,db
+from sqlalchemy import desc
+import datetime
 
 def get_all_user():
     users = player.query.all()
@@ -29,34 +31,36 @@ def get_user_by_name(username):
         return user_data
     return user
 
- 
+def get_data_table_all():
+    data = property_type.query.order_by(property_type.id).all()
+    list = []
+    for element in data:
+        table = {
+            'id':element.id,
+            'category':element.category,
+            'cost_property':element.cost_property,
+            'time_to_build':element.time_to_build,
+            'profits':element.profits,
+        }
+        list.append(table)
+    return list
+
+def get_table_ranking():
+    # Get table ranking order by money desc 
+    user = player.query.order_by(desc(player.money)).all()
+    list = []
+    for data in user:
+        dicc = {
+            'name': data.name,
+            'money':data.money
+        }
+        list.append(dicc)
+    return list
+    
+    
 
 def get_data_user_by_id(id):
     data = player.query.get(id)
-    # if data :
-    #     table = db.session.query(property,property_type).filter(property_type.id == property.id_property_type).filter(property.id_player == id).all()
-    #     print(table)
-    #     data_user = []
-    #     for (prop,tipo) in table:
-    #         information ={
-    #             'id':prop.id,
-    #             'tipo_tabla': tipo.category
-    #         }
-    #         data_user.append(information)
-    # return data_user
-    # return table
-        # data_user = []
-        # for (prop, tipo) in table:
-        #     tabla_user {
-        #         'id' : prop.id
-        #     }
-    # user_data ={
-    #     'id' : data.id,
-    #     'name':data.name,
-    #     'money':data.money,
-    #     'password':data.password,
-    #     'created_at':data.created_at
-    # }
     user_data = {
         'name': data.name,
         'money':data.money,
@@ -71,25 +75,54 @@ def created_user(name,password):
     db.session.commit()
 
 #-----actualizar el dinero de un jugador------
-def update_money(player_id, new_money):
+def update_user(player_id, new_money):
     user = player.query.get(player_id)
-    if user:
-        user.money = new_money
-        db.session.commit()
-        return True  
-    return False
+    user.money = new_money
+    db.session.commit()
 
 #------añadir una propiedad a un jugador-----
-# def add_property(player_id, property_data):
-#     new_property = property(
-#         id_player=player_id,
-#         id_property_type=property_data['id_property_type'],
-#         cost_property=property_data['cost_property']
-#     )
-#     db.session.add(new_property)
-#     db.session.commit()
-#     return True  
+def add_property(player_id, property_id):
+    data = property_type.query.get(property_id)
+    new_property = property(
+        id_player=player_id,
+        id_property_type=data.id,
+        time_completed_work = datetime.datetime.now() + datetime.timedelta(minutes=data.time_to_build)
+    )
+    db.session.add(new_property)
+    db.session.commit()
+    print(datetime.datetime.now() + datetime.timedelta(minutes=data.time_to_build))
 
+
+def property_filter_by_id(id):
+    data = property.query.filter_by(id_player=id).order_by(property.id_property_type).all()
+    list = []
+    date = datetime.datetime.now()
+    for element in data:
+        if date >= element.time_completed_work:
+            element.state = True
+            db.session.commit()
+        data_property = {
+            'id': element.id,
+            'id_property_type' : element.id_property_type,
+            'id_player': element.id_player,
+            'state' : element.state,
+            'time_completed_work' : element.time_completed_work,
+            'created_at' : element.created_at
+        }
+        
+        list.append(data_property)
+    return list
+
+def delete_property_by_id(id_user,id_property_type):
+    data = property.query.filter_by(id_player=id_user,id_property_type=id_property_type)
+    for prop in data:
+        print(prop)
+        if prop.state == True:
+            db.session.delete(prop)
+            db.session.commit()
+        
+    
+    
 
 
 

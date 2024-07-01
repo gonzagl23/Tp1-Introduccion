@@ -118,6 +118,20 @@ body{
     font-size: 25px;
 }
 
+.btn-collect{
+    padding: 15px;
+    border-radius: 10px;
+    color: black;
+    background: none;
+    pointer-events: none;
+}
+
+.btn-collect.activate{
+    background-color: green;
+    cursor: pointer;
+    pointer-events: all;
+    color: white;
+}
 
 .buy-box{
     display: flex;
@@ -125,7 +139,13 @@ body{
     /* border: 2px solid red; */
 }
 .buy-box img,.shop img{
-    height: 50px;
+    height: 55px;
+}
+
+.worker-buy,.departament-buy,.house-buy,.mansion-buy{
+    background-color: beige;
+    margin-left: 2px;
+    border: 1px solid black;
 }
 
 /* TABLE - SHOP */
@@ -175,7 +195,7 @@ body{
     align-items: center;
 }
 
-.description{
+.description-table{
     padding: 5px;
     color: white;
 }
@@ -185,7 +205,7 @@ body{
     cursor: pointer;
 }
 
-.description.activate{
+.description-table.activate{
     color: black;
 }
 
@@ -203,7 +223,7 @@ body{
 }
 
 .price-object p {
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .img-div-shop{

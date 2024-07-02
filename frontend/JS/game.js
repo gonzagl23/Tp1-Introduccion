@@ -111,7 +111,7 @@ function getDataTable(content){
         _TITLE_SHOP[i].textContent = content[i].category
         _TITLE_PROPERTY_BUY[i].textContent = content[i].category,
         // _PRICE[i].textContent = content[i].cost_property,
-        _PRICE[i].textContent = 10
+        _PRICE[i].textContent = content[i].cost_property,
         _PROFIT[i].textContent =  content[i].profits
         idProperty.push(content[i].id)
     }

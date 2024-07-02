@@ -109,7 +109,7 @@ body{
     justify-content: space-around;
 }
 
-.form-input-label,.form-input-label-register{
+.form-input-label,.form-register{
     display: flex;
     flex-direction: column;
     border: 2px dotted grey;
@@ -119,25 +119,19 @@ body{
 }
 
 
-.form-input-label input,.form-input-label-register.on input{
+.form-input-label input,.form-register.activo input{
     width: 100%;
     height: 30px;
     font-size: 20px;
 }
 
-.form-input-label label,.form-input-label-register.on label,.table-form a{
+.form-input-label label,.form-register.activo label{
     font-size: 20px;
 }
 
 
-.table-form a{
-    text-align: center;
-    color: black;
 
-}
-
-
-.btn{
+.container-btn{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -147,7 +141,7 @@ body{
     width: 40%;
 }
 
-.btn button{
+.container-btn button{
     border: 2px solid black;
     cursor: pointer;
     font-size: 15px;
@@ -164,11 +158,12 @@ body{
     color: white;
 }
 
-.index.on,.btn-register,.btn-back,.register,.link-a.on,.form-input-label-register{
+
+.btn-back,.btn-confirm,.form-register,.btn-login.activo,.btn-register.activo{
     display: none;
 }
 
-.btn-back.on,.btn-register.on,.register.on,.link-a,.form-input-label-register.on{
+.btn-back.activo,.btn-register,.form-register.activo,.btn-confirm.activo{
     display: block;
 }
 
@@ -211,11 +206,11 @@ body{
         width: 70%;
     }
 
-    .form-input-label label,.form-input-label-register.on label, .table-form a{
+    .form-input-label label,.form-register.activo label{
         font-size: 15px;
     }
 
-    .form-input-label input,.form-input-label-register.on input{
+    .form-input-label input,.form-register.activo input{
         font-size: 15px;
     }
 

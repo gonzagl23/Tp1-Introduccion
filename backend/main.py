@@ -85,13 +85,6 @@ def update_money_route():
     update_user(data['id'],data['money'])
     return jsonify({"message": "user updated successfully"})
 
-# @app.route('/add_property/<int:player_id>', methods=['POST'])
-# def add_property_route(player_id):
-#     data = request.get_json()
-#     if add_property(player_id, data):
-#         return jsonify({"message": "Property added successfully"})
-#     return jsonify({"message": "Failed to add property"}), 500
- 
 
 if __name__ == '__main__':
     db.init_app(app)

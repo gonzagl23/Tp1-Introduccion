@@ -90,7 +90,6 @@ def add_property(player_id, property_id):
     )
     db.session.add(new_property)
     db.session.commit()
-    print(datetime.datetime.now() + datetime.timedelta(minutes=data.time_to_build))
 
 
 def property_filter_by_id(id):
@@ -113,14 +112,15 @@ def property_filter_by_id(id):
         list.append(data_property)
     return list
 
-def delete_property_by_id(id_user,id_property_type):
-    data = property.query.filter_by(id_player=id_user,id_property_type=id_property_type)
+def delete_property_by_id(id_user,id_property):
+    data = property.query.filter_by(id_player=id_user,id_property_type=id_property,state=True).all()
+    amount = 0
     for prop in data:
-        print(prop)
-        if prop.state == True:
-            db.session.delete(prop)
-            db.session.commit()
-        
+        db.session.delete(prop)
+        db.session.commit()
+        amount += 1
+    
+    return amount
     
     
 

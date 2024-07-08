@@ -46,8 +46,8 @@ def get_property(id):
 @app.route('/delete_property/<id>/property_id/<id_property>',methods=['DELETE'])
 def delete_property(id,id_property):
     try:
-        delete_property_by_id(id,id_property)
-        return jsonify({"message":"succes"})
+        amount = delete_property_by_id(id,id_property)
+        return jsonify({"message": amount})
     except:
         return jsonify({"message":"error"})
 

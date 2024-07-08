@@ -10,9 +10,13 @@ const
     _DATA_HOUSE = 1,
     _DATA_DEPARTAMENT = 2,
     _DATA_MANSION = 3,
-    _MAX_INSERT_IMAGE = 11,
-    _CLICKER_IMAGE = document.getElementById("img-click"),
+    _MAX_INSERT_IMAGE = 10,
     _AMOUNT = 1,
+    _SRC_IMG_WORK = "../assets/img/obrero.png",
+    _SRC_IMG_HOUSE = "../assets/img/hogar.png",
+    _SRC_IMG_DEPARTAMENT = "../assets/img/departamento.png",
+    _SRC_IMG_MANSION = "../assets/img/hotel.png",
+    _CLICKER_IMAGE = document.getElementById("img-click"),
     _INSERT_IMAGE_BUY = document.querySelectorAll(".buy-box"),
     _TABLE_BUY = document.querySelectorAll(".shop"),
     _TITLE_SHOP = document.querySelectorAll(".title"),
@@ -126,52 +130,47 @@ fetch(`http://localhost:5000/property_buy/${_ID}`)
 
 function getDataObjectBuy(content){
     for (i = 0 ;i < content.length ; i ++){
+        const img = document.createElement('img')
         if (content[i].id_property_type ===  idProperty[_DATA_WORKER]){
             if (parseInt(objectAmount[_DATA_WORKER].textContent) < _MAX_INSERT_IMAGE){
-                const imgWorker = document.createElement("img")
-                imgWorker.src = "../assets/img/obrero.png"
+                img.src = _SRC_IMG_WORK
                 if (content[i].state === true){
-                    imgWorker.classList.add('worker-buy')
+                    img.classList.add('worker-buy')
                     _COLLECT_WORKER.classList.add('activate')
                 }
-                _INSERT_IMAGE_BUY[_DATA_WORKER].appendChild(imgWorker)
+                _INSERT_IMAGE_BUY[_DATA_WORKER].appendChild(img)
             }
             objectAmount[_DATA_WORKER].textContent = parseInt(objectAmount[_DATA_WORKER].textContent) + _AMOUNT
         }else if (content[i].id_property_type ===  idProperty[_DATA_HOUSE]){
             if (parseInt(objectAmount[_DATA_HOUSE].textContent) < _MAX_INSERT_IMAGE){
-                const imgHouse = document.createElement("img")
-                imgHouse.src = "../assets/img/hogar.png"
+                img.src = _SRC_IMG_HOUSE
                 if (content[i].state === true){
-                    imgHouse.classList.add('house-buy')
+                    img.classList.add('house-buy')
                     _COLLECT_HOUSE.classList.add("activate")
                 }
-                _INSERT_IMAGE_BUY[_DATA_HOUSE].appendChild(imgHouse)
+                _INSERT_IMAGE_BUY[_DATA_HOUSE].appendChild(img)
             }
             objectAmount[_DATA_HOUSE].textContent = parseInt(objectAmount[_DATA_HOUSE].textContent) + _AMOUNT
 
         }else if (content[i].id_property_type ===  idProperty[_DATA_DEPARTAMENT]){
             if (parseInt(objectAmount[_DATA_DEPARTAMENT].textContent) < _MAX_INSERT_IMAGE){
-                const imgDepartament = document.createElement("img")
-                imgDepartament.src = "../assets/img/departamento.png"
+                img.src = _SRC_IMG_DEPARTAMENT
                 if (content[i].state === true){
-                    imgDepartament.classList.add('departament-buy')
+                    img.classList.add('departament-buy')
                     _COLLECT_DEPARTAMENT.classList.add("activate")
-    
                 }
-                _INSERT_IMAGE_BUY[_DATA_DEPARTAMENT].appendChild(imgDepartament)
+                _INSERT_IMAGE_BUY[_DATA_DEPARTAMENT].appendChild(img)
             }
             objectAmount[_DATA_DEPARTAMENT].textContent = parseInt(objectAmount[_DATA_DEPARTAMENT].textContent) + _AMOUNT
 
         }else if (content[i].id_property_type ===  idProperty[_DATA_MANSION]){
             if (parseInt(objectAmount[_DATA_MANSION].textContent) < _MAX_INSERT_IMAGE){
-                const imgMansion = document.createElement("img")
-                imgMansion.src = "../assets/img/hotel.png"
+                img.src = _SRC_IMG_MANSION
                 if (content[i].state === true){
-                    imgMansion.classList.add('mansion-buy')
+                    img.classList.add('mansion-buy')
                     _COLLECT_MANSION.classList.add("activate")
-    
                 }
-                _INSERT_IMAGE_BUY[_DATA_MANSION].appendChild(imgMansion)
+                _INSERT_IMAGE_BUY[_DATA_MANSION].appendChild(img)
             }
             objectAmount[_DATA_MANSION].textContent = parseInt(objectAmount[_DATA_MANSION].textContent) + _AMOUNT
 
@@ -181,104 +180,67 @@ function getDataObjectBuy(content){
 
 
 
-
-
 // ------------------- COLLECT BUYS-------------------------------//
 
-_COLLECT_WORKER.addEventListener('click',collectWorker)
-_COLLECT_HOUSE.addEventListener('click',collectHouse)
-_COLLECT_DEPARTAMENT.addEventListener('click',collectDepartament)
-_COLLECT_MANSION.addEventListener('click',collectMansion)
+_COLLECT_WORKER.addEventListener('click',()=>{
+    collectObject(objectAmount[_DATA_WORKER],idProperty[_DATA_WORKER],_PROFIT[_DATA_WORKER],document.querySelectorAll(".worker-buy"))
+})
+_COLLECT_HOUSE.addEventListener('click',()=>{
+    collectObject(objectAmount[_DATA_HOUSE],idProperty[_DATA_HOUSE],_PROFIT[_DATA_HOUSE],document.querySelectorAll(".house-buy"))
+})
+_COLLECT_DEPARTAMENT.addEventListener('click',()=>{
+    collectObject(objectAmount[_DATA_DEPARTAMENT],idProperty[_DATA_DEPARTAMENT],_PROFIT[_DATA_DEPARTAMENT],document.querySelectorAll(".departament-buy"))
+})
+_COLLECT_MANSION.addEventListener('click',()=> {
+    collectObject(objectAmount[_DATA_MANSION],idProperty[_DATA_MANSION],_PROFIT[_DATA_MANSION],document.querySelectorAll(".mansion-buy"))
+})
 
-function collectWorker(){
-    workerAmount = document.querySelectorAll(".worker-buy")
-    money.textContent = parseInt(money.textContent) + (workerAmount.length * parseInt(_PROFIT[_DATA_WORKER].textContent))
-    objectAmount[_DATA_WORKER].textContent = parseInt(objectAmount[_DATA_WORKER].textContent) - workerAmount.length
-    for (i = 0 ; i < workerAmount.length ; i ++){
-        workerAmount[i].remove()
+
+function collectObject(amount,propertyId,profit,imgAmount){
+    console.log(imgAmount.length)
+    for (i = 0 ; i < imgAmount.length ; i++){
+        imgAmount[i].remove()
     }
-    _COLLECT_WORKER.classList.remove("activate")
-    fetch(`http://localhost:5000/delete_property/${_ID}/property_id/${idProperty[_DATA_WORKER]}`,{
+    fetch(`http://localhost:5000/delete_property/${_ID}/property_id/${propertyId}`,{
         method : "DELETE",
         headers:{
             'Content-Type':'application/json'
         },
     })
-    updateUser()
-    controlMoneyShop(parseInt(money.textContent))
-}
-
-function collectHouse(){
-    houseAmount = document.querySelectorAll('.house-buy')
-    money.textContent = parseInt(money.textContent) + (houseAmount.length * parseInt(_PROFIT[_DATA_HOUSE].textContent))
-    objectAmount[_DATA_HOUSE].textContent = parseInt(objectAmount[_DATA_HOUSE].textContent) - houseAmount.length
-    for (i = 0 ; i < houseAmount.length ; i ++){
-        houseAmount[i].remove()
-    }
-    _COLLECT_HOUSE.classList.remove("activate")
-    console.log(idProperty[_DATA_HOUSE])
-    fetch(`http://localhost:5000/delete_property/${_ID}/property_id/${idProperty[_DATA_HOUSE]}`,{
-        method : "DELETE",
-        headers:{
-            'Content-Type':'application/json'
-        },
+    .then(response => response.json())
+    .then(data => {
+        money.textContent = parseInt(money.textContent) + (data.message * parseInt(profit.textContent))
+        amount.textContent = parseInt(amount.textContent) - data.message
     })
+    .catch(error => console.log(error))
     updateUser()
-    controlMoneyShop(parseInt(money.textContent))
-
+    location.reload()
 }
 
-function collectDepartament(){
-    departamentAmount = document.querySelectorAll('.departament-buy')
-    money.textContent = parseInt(money.textContent) + (departamentAmount.length * parseInt(_PROFIT[_DATA_DEPARTAMENT].textContent))
-    objectAmount[_DATA_DEPARTAMENT].textContent = parseInt(objectAmount[_DATA_DEPARTAMENT].textContent) - departamentAmount.length
-    for (i = 0 ; i < departamentAmount.length ; i ++){
-        departamentAmount[i].remove()
-    }
-    _COLLECT_DEPARTAMENT.classList.remove("activate")
-    fetch(`http://localhost:5000/delete_property/${_ID}/property_id/${idProperty[_DATA_DEPARTAMENT]}`,{
-        method : "DELETE",
-        headers:{
-            'Content-Type':'application/json'
-        },
-    })
-    updateUser()
-    controlMoneyShop(parseInt(money.textContent))
-}
-
-function collectMansion(){
-    mansionAmount = document.querySelectorAll('.mansion-buy')
-    money.textContent = parseInt(money.textContent) + (mansionAmount.length * parseInt(_PROFIT[_DATA_MANSION].textContent))
-    objectAmount[_DATA_MANSION].textContent = parseInt(objectAmount[_DATA_MANSION].textContent) - mansionAmount.length
-    for (i = 0 ; i < mansionAmount.length ; i ++){
-        mansionAmount[i].remove()
-    }
-    _COLLECT_MANSION.classList.remove("activate")
-    fetch(`http://localhost:5000/delete_property/${_ID}/property_id/${idProperty[_DATA_MANSION]}`,{
-        method : "DELETE",
-        headers:{
-            'Content-Type':'application/json'
-        },
-    })
-    updateUser()
-    controlMoneyShop(parseInt(money.textContent))
-
-
-}
 
 //-------------------- TABLE SHOP---------------------//
-_TABLE_BUY[_DATA_WORKER].addEventListener('click',clickTableWorker)
-_TABLE_BUY[_DATA_HOUSE].addEventListener('click',clickTableHouse)
-_TABLE_BUY[_DATA_DEPARTAMENT].addEventListener('click',clickTableDepartament)
-_TABLE_BUY[_DATA_MANSION].addEventListener('click',clickTableMansion)
+_TABLE_BUY[_DATA_WORKER].addEventListener('click',()=>{
+    clickTable(_PRICE[_DATA_WORKER],objectAmount[_DATA_WORKER],idProperty[_DATA_WORKER],_SRC_IMG_WORK,_INSERT_IMAGE_BUY[_DATA_WORKER])
+})
+_TABLE_BUY[_DATA_HOUSE].addEventListener('click',()=>{
+    clickTable(_PRICE[_DATA_HOUSE],objectAmount[_DATA_HOUSE],idProperty[_DATA_HOUSE],_SRC_IMG_HOUSE,_INSERT_IMAGE_BUY[_DATA_HOUSE])
+})
+_TABLE_BUY[_DATA_DEPARTAMENT].addEventListener('click',()=>{
+    clickTable(_PRICE[_DATA_DEPARTAMENT],objectAmount[_DATA_DEPARTAMENT],idProperty[_DATA_DEPARTAMENT],_SRC_IMG_DEPARTAMENT,_INSERT_IMAGE_BUY[_DATA_DEPARTAMENT])
+})
+_TABLE_BUY[_DATA_MANSION].addEventListener('click',()=>{
+    clickTable(_PRICE[_DATA_MANSION],objectAmount[_DATA_MANSION],idProperty[_DATA_MANSION],_SRC_IMG_MANSION,_INSERT_IMAGE_BUY[_DATA_MANSION])
+})
 
-
-function clickTableWorker(){
-   if (parseInt(money.textContent) >= parseInt(_PRICE[_DATA_WORKER].textContent)){
-        if (parseInt(objectAmount[_DATA_WORKER].textContent) < _MAX_INSERT_IMAGE){
-            const imgWorker = document.createElement("img")
-            imgWorker.src = "../assets/img/obrero.png"
-            _INSERT_IMAGE_BUY[_DATA_WORKER].appendChild(imgWorker)
+function clickTable(price,amount,propertyId,srcImage,listImageInsert){
+    intMoney = parseInt(money.textContent)
+    intPrice = parseInt(price.textContent)
+    intAmount = parseInt(amount.textContent)
+    if (intMoney >= intPrice){
+        if (intAmount < _MAX_INSERT_IMAGE){
+            const img = document.createElement('img')
+            img.src = srcImage
+            listImageInsert.appendChild(img)
         }
         fetch(`http://localhost:5000/create_property`,{
             method : "POST",
@@ -287,81 +249,13 @@ function clickTableWorker(){
             },
             body: JSON.stringify({
                 'id_user': _ID,
-                "id_property" : idProperty[_DATA_WORKER]
+                "id_property" : propertyId
             })
         })
-        money.textContent = parseInt(money.textContent) - parseInt(_PRICE[_DATA_WORKER].textContent)
-        objectAmount[_DATA_WORKER].textContent = parseInt(objectAmount[_DATA_WORKER].textContent) + _AMOUNT 
-   }
-   controlMoneyShop(parseInt(money.textContent))
+    }
+    money.textContent = intMoney - intPrice
+    amount.textContent = intAmount + _AMOUNT
+    updateUser()
+    controlMoneyShop(intMoney)
+
 }
-
-function clickTableHouse(){
-    if (parseInt(money.textContent) >= parseInt(_PRICE[_DATA_HOUSE].textContent)){
-        if (parseInt(objectAmount[_DATA_HOUSE].textContent) < _MAX_INSERT_IMAGE){
-            const imgHouse = document.createElement("img")
-            imgHouse.src = "../assets/img/hogar.png"
-            _INSERT_IMAGE_BUY[_DATA_HOUSE].appendChild(imgHouse)
-        }
-        fetch(`http://localhost:5000/create_property`,{
-            method : "POST",
-            headers:{
-            'Content-Type':'application/json',
-            },
-            body: JSON.stringify({
-                'id_user': _ID,
-                "id_property" : idProperty[_DATA_HOUSE]
-            })
-        })
-        money.textContent = parseInt(money.textContent) - parseInt(_PRICE[_DATA_HOUSE].textContent)
-        objectAmount[_DATA_HOUSE].textContent = parseInt(objectAmount[_DATA_HOUSE].textContent) + _AMOUNT
-    }
-    controlMoneyShop(parseInt(money.textContent))
- }
-
- function clickTableDepartament(){
-    if (parseInt(money.textContent) >= parseInt(_PRICE[_DATA_DEPARTAMENT].textContent)){
-        if (parseInt(objectAmount[_DATA_DEPARTAMENT].textContent) < _MAX_INSERT_IMAGE){
-            const imgDepartament = document.createElement("img")
-            imgDepartament.src = "../assets/img/departamento.png"
-            _INSERT_IMAGE_BUY[_DATA_DEPARTAMENT].appendChild(imgDepartament)
-        }
-        fetch(`http://localhost:5000/create_property`,{
-            method : "POST",
-            headers:{
-            'Content-Type':'application/json',
-            },
-            body: JSON.stringify({
-                'id_user': _ID,
-                "id_property" : idProperty[_DATA_DEPARTAMENT],
-            })
-        })
-        money.textContent = parseInt(money.textContent) - parseInt(_PRICE[_DATA_DEPARTAMENT].textContent)
-        objectAmount[_DATA_DEPARTAMENT].textContent = parseInt(objectAmount[_DATA_DEPARTAMENT].textContent) + _AMOUNT
-    }
-    controlMoneyShop(parseInt(money.textContent))  
- }
-
- function clickTableMansion(){
-    if (parseInt(money.textContent) >= parseInt(_PRICE[_DATA_MANSION].textContent)){
-        if (parseInt(objectAmount[_DATA_MANSION].textContent) < _MAX_INSERT_IMAGE){
-            const imgMansion = document.createElement("img")
-            imgMansion.src = "../assets/img/hotel.png"
-            _INSERT_IMAGE_BUY[_DATA_MANSION].appendChild(imgMansion)
-        }
-        fetch(`http://localhost:5000/create_property`,{
-            method : "POST",
-            headers:{
-            'Content-Type':'application/json',
-            },
-            body: JSON.stringify({
-                'id_user': _ID,
-                "id_property" : idProperty[_DATA_MANSION],
-            })
-        })
-        money.textContent = parseInt(money.textContent) - parseInt(_PRICE[_DATA_MANSION].textContent)
-        objectAmount[_DATA_MANSION].textContent = parseInt(objectAmount[_DATA_MANSION].textContent) + _AMOUNT
-    }
-    controlMoneyShop(parseInt(money.textContent))
-    
- }

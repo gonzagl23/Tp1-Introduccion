@@ -36,13 +36,13 @@ def get_user_validation():
 def get_data_table():
     return jsonify(get_data_table_all())
 
-# Get all data property by id
+# GET ALL DATA PROPERTY BY ID
 @app.route('/property_buy/<id>')
 def get_property(id):
     return jsonify(property_filter_by_id(id))
 
 
-# Delete property time completed work
+# DELETE PROPERTY TIME COMPLETED WORK
 @app.route('/delete_property/<id>/property_id/<id_property>',methods=['DELETE'])
 def delete_property(id,id_property):
     try:

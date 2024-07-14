@@ -20,8 +20,7 @@ const
     _INSERT_IMAGE_BUY = document.querySelectorAll(".buy-box"),
     _TABLE_BUY = document.querySelectorAll(".shop"),
     _TITLE_SHOP = document.querySelectorAll(".title"),
-    _PARAMS = new URLSearchParams(window.location.search),
-    _ID = _PARAMS.get("id"),
+    _ID = new URLSearchParams(window.location.search).get('id'),
     _BTN_SIGNOUT = document.getElementById("sign-out"),
     _TITLE_PROPERTY_BUY = document.querySelectorAll(".property-buy"),
     _PRICE = document.querySelectorAll(".price"),
@@ -34,7 +33,7 @@ const
 
 
 
-// SIGNOUT USER 
+    // ----------------SIGNOUT USER----------------- //  
 _BTN_SIGNOUT.addEventListener('click',sendDataUser)
 
 
@@ -73,7 +72,6 @@ function clickerImage(){
     },90)
     money.textContent = parseInt(money.textContent) + _AMOUNT
     controlMoneyShop(parseInt(money.textContent))
-    updateUser()
 }
 
 function controlMoneyShop(money){
@@ -89,6 +87,21 @@ function controlMoneyShop(money){
 }
 
 
+//------------- GET DATA TABLE INFORMATION------------------------//
+fetch("http://localhost:5000/information_table/")
+.then(response => response.json())
+.then(getDataTable)
+.catch(error => console.log(`error,${error}`))
+
+function getDataTable(content){
+    for (i = 0; i < content.length ; i ++){
+        _TITLE_SHOP[i].textContent = content[i].category
+        _TITLE_PROPERTY_BUY[i].textContent = content[i].category,
+        _PRICE[i].textContent = content[i].cost_property,
+        _PROFIT[i].textContent =  content[i].profits
+        idProperty.push(content[i].id)
+    }
+}
 
 // ----------GET DATA USER-------------------//
 fetch(`http://localhost:5000/get_data_user/${_ID}`)
@@ -102,23 +115,6 @@ function dataUser(content){
     controlMoneyShop(parseInt(money.textContent))
 }
 
-
-
-//------------- GET DATA TABLE INFORMATION------------------------//
-fetch("http://localhost:5000/information_table/")
-.then(response => response.json())
-.then(getDataTable)
-.catch(errorData)
-
-function getDataTable(content){
-    for (i = 0; i < content.length ; i ++){
-        _TITLE_SHOP[i].textContent = content[i].category
-        _TITLE_PROPERTY_BUY[i].textContent = content[i].category,
-        _PRICE[i].textContent = content[i].cost_property,
-        _PROFIT[i].textContent =  content[i].profits
-        idProperty.push(content[i].id)
-    }
-}
 
 
 // ------------------GET OBJECTS BUY ---------------------// 
@@ -213,8 +209,6 @@ function collectObject(amount,propertyId,profit,imgAmount){
         amount.textContent = parseInt(amount.textContent) - data.message
     })
     .catch(error => console.log(error))
-    updateUser()
-    location.reload()
 }
 
 
@@ -252,10 +246,15 @@ function clickTable(price,amount,propertyId,srcImage,listImageInsert){
                 "id_property" : propertyId
             })
         })
+        money.textContent = intMoney - intPrice
+        amount.textContent = intAmount + _AMOUNT
+        
     }
-    money.textContent = intMoney - intPrice
-    amount.textContent = intAmount + _AMOUNT
-    updateUser()
     controlMoneyShop(intMoney)
-
 }
+
+
+// ----- UPDATE USER ----//
+window.addEventListener("beforeunload",()=>{
+    updateUser()
+})

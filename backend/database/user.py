@@ -121,7 +121,17 @@ def delete_property_by_id(id_user,id_property):
         amount += 1
     
     return amount
+
+def delete_user_by_id(id_user):
+    data = property.query.filter_by(id_player=id_user).all()
+
+    for element in data:
+        db.session.delete(element)
     
+    user = player.query.filter_by(id=id_user).first()
+    db.session.delete(user)
+    db.session.commit()
+
     
 
 

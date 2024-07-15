@@ -2,6 +2,7 @@ let
     user = document.getElementById("username"),
     money = document.getElementById("money-user"),
     objectAmount= document.querySelectorAll(".amount"),
+    estado = false
     idProperty = []
 
 
@@ -21,7 +22,7 @@ const
     _TABLE_BUY = document.querySelectorAll(".shop"),
     _TITLE_SHOP = document.querySelectorAll(".title"),
     _ID = new URLSearchParams(window.location.search).get('id'),
-    _BTN_SIGNOUT = document.getElementById("sign-out"),
+    _BTN_SIGNOUT = document.querySelector(".btn-sign-out"),
     _TITLE_PROPERTY_BUY = document.querySelectorAll(".property-buy"),
     _PRICE = document.querySelectorAll(".price"),
     _PROFIT = document.querySelectorAll('.profit'),
@@ -29,8 +30,24 @@ const
     _COLLECT_WORKER = document.getElementById('worker-collect'),
     _COLLECT_HOUSE = document.getElementById('house-collect'),
     _COLLECT_DEPARTAMENT = document.getElementById('departament-collect'),
-    _COLLECT_MANSION = document.getElementById('mansion-collect')
+    _COLLECT_MANSION = document.getElementById('mansion-collect'),
+    _BTN_DELETE = document.querySelector('.btn-delete')
 
+
+// -------- DELETE USER --------- //
+
+_BTN_DELETE.addEventListener('click',() =>{
+    if (confirm('You¨re sure ?')) {
+        fetch(`http://localhost:5000/delete_user/${_ID}`,{
+            method: 'DELETE',
+            headers:{
+                'Content-Type':'application/json'
+            },
+        })
+        window.location.href = '../index.html'
+        estado = true
+    }
+})
 
 
     // ----------------SIGNOUT USER----------------- //  
@@ -256,5 +273,7 @@ function clickTable(price,amount,propertyId,srcImage,listImageInsert){
 
 // ----- UPDATE USER ----//
 window.addEventListener("beforeunload",()=>{
-    updateUser()
+    if (!estado){
+        updateUser()
+    }
 })

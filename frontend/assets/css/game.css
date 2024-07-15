@@ -31,17 +31,24 @@ body{
     justify-content: center;
 
 }
-.btn-sign-out{
+.div-btn{
     padding: 30px;
     text-align: center;
 }
-.btn-sign-out button{
+.btn-sign-out,.btn-delete{
     padding: 20px;
     border-radius: 20px;
-    background-color: #1877f2;
     color: white;
     font-size: 20px;
     cursor: pointer;
+}
+
+.btn-sign-out{
+    background-color: #1877f2;
+}
+
+.btn-delete{
+    background-color: red;
 }
 
 .title-user,.title-counter{

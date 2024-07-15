@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from models import db
-from database.user import get_user_by_name,created_user,get_data_user_by_id,get_data_table_all,get_table_ranking,get_all_user,add_property,update_user,property_filter_by_id,delete_property_by_id
+from database.user import get_user_by_name,created_user,get_data_user_by_id,get_data_table_all,get_table_ranking,get_all_user,add_property,update_user,property_filter_by_id,delete_property_by_id,delete_user_by_id
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -84,6 +84,15 @@ def update_money_route():
     data = request.get_json()
     update_user(data['id'],data['money'])
     return jsonify({"message": "user updated successfully"})
+
+# DELETE USER
+@app.route('/delete_user/<id>', methods=["DELETE"])
+def delete_user(id):
+    try:
+        delete_user_by_id(id)
+        return jsonify({'message':'succes'})
+    except:
+        return jsonify({'message':'error'})
 
 
 if __name__ == '__main__':

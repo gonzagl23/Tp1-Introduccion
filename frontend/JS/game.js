@@ -52,9 +52,11 @@ function updateUser(){
         },
         body:JSON.stringify({
             id : _ID,
-            money: money.textContent,
+            money: parseInt(money.textContent),
         })
-    })
+    }).then(content => content.json())
+    .then(data => console.log(data))
+    .catch(errorData)
 }
 
 function errorData(content){
@@ -179,21 +181,20 @@ function getDataObjectBuy(content){
 // ------------------- COLLECT BUYS-------------------------------//
 
 _COLLECT_WORKER.addEventListener('click',()=>{
-    collectObject(objectAmount[_DATA_WORKER],idProperty[_DATA_WORKER],_PROFIT[_DATA_WORKER],document.querySelectorAll(".worker-buy"))
+    collectObject(objectAmount[_DATA_WORKER],idProperty[_DATA_WORKER],_PROFIT[_DATA_WORKER],document.querySelectorAll(".worker-buy"),_COLLECT_WORKER)
 })
 _COLLECT_HOUSE.addEventListener('click',()=>{
-    collectObject(objectAmount[_DATA_HOUSE],idProperty[_DATA_HOUSE],_PROFIT[_DATA_HOUSE],document.querySelectorAll(".house-buy"))
+    collectObject(objectAmount[_DATA_HOUSE],idProperty[_DATA_HOUSE],_PROFIT[_DATA_HOUSE],document.querySelectorAll(".house-buy"),_COLLECT_HOUSE)
 })
 _COLLECT_DEPARTAMENT.addEventListener('click',()=>{
-    collectObject(objectAmount[_DATA_DEPARTAMENT],idProperty[_DATA_DEPARTAMENT],_PROFIT[_DATA_DEPARTAMENT],document.querySelectorAll(".departament-buy"))
+    collectObject(objectAmount[_DATA_DEPARTAMENT],idProperty[_DATA_DEPARTAMENT],_PROFIT[_DATA_DEPARTAMENT],document.querySelectorAll(".departament-buy"),_COLLECT_DEPARTAMENT)
 })
 _COLLECT_MANSION.addEventListener('click',()=> {
-    collectObject(objectAmount[_DATA_MANSION],idProperty[_DATA_MANSION],_PROFIT[_DATA_MANSION],document.querySelectorAll(".mansion-buy"))
+    collectObject(objectAmount[_DATA_MANSION],idProperty[_DATA_MANSION],_PROFIT[_DATA_MANSION],document.querySelectorAll(".mansion-buy"),_COLLECT_MANSION)
 })
 
 
-function collectObject(amount,propertyId,profit,imgAmount){
-    console.log(imgAmount.length)
+function collectObject(amount,propertyId,profit,imgAmount,collect){
     for (i = 0 ; i < imgAmount.length ; i++){
         imgAmount[i].remove()
     }
@@ -207,8 +208,11 @@ function collectObject(amount,propertyId,profit,imgAmount){
     .then(data => {
         money.textContent = parseInt(money.textContent) + (data.message * parseInt(profit.textContent))
         amount.textContent = parseInt(amount.textContent) - data.message
+        collect.classList.remove('activate')
+        controlMoneyShop(parseInt(money.textContent))
     })
     .catch(error => console.log(error))
+    
 }
 
 
@@ -227,11 +231,8 @@ _TABLE_BUY[_DATA_MANSION].addEventListener('click',()=>{
 })
 
 function clickTable(price,amount,propertyId,srcImage,listImageInsert){
-    intMoney = parseInt(money.textContent)
-    intPrice = parseInt(price.textContent)
-    intAmount = parseInt(amount.textContent)
-    if (intMoney >= intPrice){
-        if (intAmount < _MAX_INSERT_IMAGE){
+    if (parseInt(money.textContent) >= parseInt(price.textContent)){
+        if (parseInt(amount.textContent) < _MAX_INSERT_IMAGE){
             const img = document.createElement('img')
             img.src = srcImage
             listImageInsert.appendChild(img)
@@ -246,11 +247,10 @@ function clickTable(price,amount,propertyId,srcImage,listImageInsert){
                 "id_property" : propertyId
             })
         })
-        money.textContent = intMoney - intPrice
-        amount.textContent = intAmount + _AMOUNT
-        
+        money.textContent = parseInt(money.textContent) - parseInt(price.textContent)
+        amount.textContent = parseInt(amount.textContent) + _AMOUNT
+        controlMoneyShop(parseInt(money.textContent))
     }
-    controlMoneyShop(intMoney)
 }
 
 
